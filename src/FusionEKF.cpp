@@ -144,6 +144,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
 
   ekf_.Predict();
+  
+  std::cout << ekf_.x_ <<endl;
+  std::cout << ekf_.P_ <<endl;
+  std::cout << ekf_.F_ <<endl;
+  std::cout << ekf_.H_ <<endl;
+  std::cout << ekf_.R_ <<endl;
+  std::cout << ekf_.Q_ <<endl;
 
   /*****************************************************************************
    *  Update
