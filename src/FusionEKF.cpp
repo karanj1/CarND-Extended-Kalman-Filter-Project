@@ -57,6 +57,8 @@ FusionEKF::FusionEKF() {
         0, 1, 0, 0,
         0, 0, 1000, 0,
         0, 0, 0, 1000;
+  
+  //std::cout <<"P_: "<< ekf_.P_ <<endl;
 }
 
 /**
@@ -101,11 +103,14 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.x_ << measurement_pack.raw_measurements_(0), measurement_pack.raw_measurements_(1), 0, 0;
     }
 
+    //std::cout <<"x: "<< ekf_.x_ <<endl;
+
     previous_timestamp_ = measurement_pack.timestamp_;
     // done initializing, no need to predict or update
     is_initialized_ = true;
     return;
   }
+
 
   /*****************************************************************************
    *  Prediction
@@ -142,15 +147,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
          dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
          0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
 
-
   ekf_.Predict();
-  
-  std::cout << ekf_.x_ <<endl;
-  std::cout << ekf_.P_ <<endl;
-  std::cout << ekf_.F_ <<endl;
-  std::cout << ekf_.H_ <<endl;
-  std::cout << ekf_.R_ <<endl;
-  std::cout << ekf_.Q_ <<endl;
+
 
   /*****************************************************************************
    *  Update
