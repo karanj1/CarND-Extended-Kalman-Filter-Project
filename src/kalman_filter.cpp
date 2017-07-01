@@ -63,6 +63,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   VectorXd z_pred(3);
   z_pred << rho, phi, rho_dot;
   VectorXd y = z - z_pred;
+  y[1] = atan2(sin(y[1]),cos(y[1])); // Angle normalization //https://discussions.udacity.com/t/ekf-gets-off-track/276122/12
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
@@ -75,3 +76,12 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
 }
+
+
+
+/*
+If you are running code in Linux VM and Simulator on Windows using tunneling:
+https://discussions.udacity.com/t/running-simulator-on-windows-and-code-on-ubuntu/255869?u=rohts.patil
+
+netsh interface portproxy add v4tov4 listenport=4567 listenaddress=127.0.0.1 connectport=4567 connectaddress=<mpc_pc_ip_address> protocol=tcp
+*/
